@@ -6,7 +6,7 @@ export function getAllPosts(page: number = 1, searchTerm: string = '') {
   return apiFetch(`/posts/?page=${page}${searchParam}`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 }

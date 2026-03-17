@@ -12,7 +12,7 @@ export default function Header() {
   const { mutate } = useLogout();
 
   const { setSearchTerm } = useSearch();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   const handleLogout = () => {
     mutate(token ?? '', {
@@ -29,7 +29,7 @@ export default function Header() {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
-    setSearchTerm(value); 
+    setSearchTerm(value);
   };
 
   return (
