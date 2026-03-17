@@ -32,7 +32,7 @@ export default function Register() {
             onError: (error) => {
                 console.log(error)
                 setError('root', {
-                    message: 'Email ou senha inválidos'
+                    message: error.message
                 });
             }
         })

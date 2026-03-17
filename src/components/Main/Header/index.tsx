@@ -1,7 +1,7 @@
 'use client'
 
+import { useAuth } from "@/src/hooks/useAuth";
 import { useLogout } from "@/src/hooks/useLogout";
-import { useAuth } from "@/src/provider/auth-provider";
 import { useRouter } from "next/navigation";
 
 export default function Header() {
@@ -21,7 +21,7 @@ export default function Header() {
     })
   }
    return (
-    <header className="flex justify-between items-center bg-[#FAFAFA] border-b border-[#E2E8F0] py-3 px-10 mb-9">
+    <header className="flex justify-between items-center bg-[#FAFAFA] border-b border-[#E2E8F0] py-3 px-10 mb-9 sticky top-0 z-50">
       
       <h3 className="text-[#0D93F2] text-[18px] font-bold">
         Mini Twitter

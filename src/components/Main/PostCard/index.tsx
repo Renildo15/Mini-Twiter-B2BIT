@@ -1,26 +1,24 @@
-import { Post } from "@/src/data/posts"
 import { formatDate } from "@/src/utils/format-date"
+import { PostType } from "@/types/post"
 import Image from "next/image"
 
 interface IPostCardPorps {
-    post:Post
+    post:PostType
 }
 
 export default function PostCard({ post }: IPostCardPorps) {
+    function formatUserName(name:string) {
+        return `@${name.replace(" ", "").toLowerCase()}`
+    }
     return (
         <div className="w-full bg-white rounded-lg border border-[#E2E8F0] p-4">
             <div className="mb-3">
-                <span className="text-[#314158] text-[16px] leading-6 font-bold">{post.author.name}</span>
-                <span className="text-[#62748E] text-[14px] leading-5"> @{post.author.username} · {formatDate(post.createdAt)}</span>
+                <span className="text-[#314158] text-[16px] leading-6 font-bold">{post.authorName}</span>
+                <span className="text-[#62748E] text-[14px] leading-5"> {formatUserName(post.authorName)} · {formatDate(post.createdAt)}</span>
             </div>
             <div className="mb-3">
                 <span className="text-[#314158] text-[18px] leading-7 font-bold">{post.title}</span>
                 <p className="text-[#314158] text-[16px] leading-6.5">{post.content}</p>
-            {post.hashTags && (
-                post.hashTags.map((hashtag) => (
-                    <span className="text-[#314158] text-[16px] leading-6.5" key={hashtag.name}>#{hashtag.name} </span>
-                ))
-            )}
             </div>
             {post.image && (
                 <div className="mb-3">

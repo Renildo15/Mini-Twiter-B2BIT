@@ -10,10 +10,16 @@ export async function apiFetch(url: string, options?: any) {
 
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.log('Erro completo:', error);
+    
     if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data?.message || "Erro na requisição");
+      const errorMessage = error.response.data?.error || 
+                          error.response.data?.message || 
+                          "Erro na requisição";
+      
+      throw new Error(errorMessage);
     }
+    
     throw new Error("Erro na requisição");
   }
 }

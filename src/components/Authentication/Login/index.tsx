@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useLogin } from "@/src/hooks/useLogin";
 import { UserWithTokenType } from "@/types/user";
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from "@/src/provider/auth-provider";
+import { useAuth } from "@/src/hooks/useAuth";
 
 
 export default function Login() {
