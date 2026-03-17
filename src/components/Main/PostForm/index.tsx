@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import PreviewImage from '../PreviewImage';
+import toast from 'react-hot-toast';
 
 export default function PostForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -41,6 +42,7 @@ export default function PostForm() {
         queryClient.invalidateQueries({ queryKey: ['posts'] });
         reset();
         setImagePreview(null);
+        toast.success('Post criado com sucesso!');
       },
       onError: (error) => {
         console.log(error);

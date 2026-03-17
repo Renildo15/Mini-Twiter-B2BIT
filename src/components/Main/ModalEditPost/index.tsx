@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { PostType } from '@/types/post';
 import PreviewImage from '../PreviewImage';
+import toast from 'react-hot-toast';
 
 interface IModalEditPostProps {
   post: PostType;
@@ -45,7 +46,7 @@ export default function ModalEditPost({
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
         if (file.size > 5 * 1024 * 1024) {
-          alert('Imagem muito grande (máximo 5MB)');
+          toast.error('Imagem muito grande (máximo 5MB)');
           return;
         }
 

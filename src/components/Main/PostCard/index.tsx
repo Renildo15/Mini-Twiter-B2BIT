@@ -9,6 +9,7 @@ import { useState } from 'react';
 import ModalDeletePost from '../ModalDeletePost';
 import { PostFormData } from '@/src/schemas/postSchema';
 import ModalEditPost from '../ModalEditPost';
+import toast from 'react-hot-toast';
 
 interface IPostCardPorps {
   post: PostType;
@@ -34,10 +35,11 @@ export default function PostCard({ post }: IPostCardPorps) {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['posts'] });
         setShowConfirm(false);
+        toast.success('Post deletado com sucesso!');
       },
       onError: (error) => {
         console.error('Erro ao deletar post:', error);
-        alert('Erro ao deletar post. Tente novamente.');
+        toast.error('Erro ao deletar post. Tente novamente.');
       },
     });
   };
@@ -49,10 +51,11 @@ export default function PostCard({ post }: IPostCardPorps) {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['posts'] });
           setShowEdit(false);
+          toast.success('Post atualizado com sucesso!');
         },
         onError: (error) => {
           console.error('Erro ao editar post:', error);
-          alert('Erro ao editar post. Tente novamente.');
+          toast.error('Erro ao editar post. Tente novamente.');
         },
       }
     );
@@ -60,7 +63,7 @@ export default function PostCard({ post }: IPostCardPorps) {
 
   const handleLike = () => {
     if (!isAuthenticated) {
-      alert('Faça login para curtir posts');
+      toast.error('Faça login para curtir posts');
       return;
     }
 

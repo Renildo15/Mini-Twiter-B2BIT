@@ -8,6 +8,7 @@ import ReactQueryProvider from '@/src/provider/react-query-provider';
 import { AuthProvider } from '@/src/provider/auth-provider';
 import { RouteGuard } from '@/src/components/RouteGuard';
 import { SearchProvider } from '@/src/provider/search-provider';
+import { Toaster } from 'react-hot-toast';
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -41,6 +42,16 @@ export default function RootLayout({
             <Footer />
           </RouteGuard>
         </AuthProvider>
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: '#1D293D',
+              color: '#fff',
+            },
+          }}
+        />
       </body>
     </html>
   );
