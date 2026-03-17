@@ -33,12 +33,13 @@ export default function RootLayout({
       >
         <AuthProvider>
            <RouteGuard>
-            <Header/>
-            <LayoutBase isTimeline={true}>
-              <ReactQueryProvider>
-                {children}
-                </ReactQueryProvider>
-            </LayoutBase>
+            <ReactQueryProvider>
+              <Header/>
+              <LayoutBase isTimeline={true}>
+                
+                  {children}
+              </LayoutBase>
+            </ReactQueryProvider>
             <Footer/>
            </RouteGuard>
         </AuthProvider>

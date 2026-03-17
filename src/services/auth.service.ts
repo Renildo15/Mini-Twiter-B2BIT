@@ -6,3 +6,12 @@ export function login(data: { email: string; password: string }) {
     data,
   });
 }
+
+export function logout(token: string) {
+  return apiFetch('auth/logout/', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+}

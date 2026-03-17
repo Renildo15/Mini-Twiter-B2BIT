@@ -10,6 +10,7 @@ export async function apiFetch(url: string, options?: any) {
 
     return response.data;
   } catch (error) {
+    console.log(error)
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data?.message || "Erro na requisição");
     }
