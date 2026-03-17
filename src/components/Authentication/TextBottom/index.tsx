@@ -6,7 +6,11 @@ export default function TextBottom() {
         <a href="#" className="underline hover:no-underline">
           Termos de Serviço
         </a>{' '}
-        e <a href="#" className="underline hover:no-underline">Política de Privacidade</a>.
+        e{' '}
+        <a href="#" className="underline hover:no-underline">
+          Política de Privacidade
+        </a>
+        .
       </span>
     </div>
   );

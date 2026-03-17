@@ -10,7 +10,11 @@ test.describe('Logout', () => {
   });
 
   test('deve fazer logout com sucesso', async ({ page }) => {
-    await page.getByRole('button').first().filter({ has: page.locator('svg') }).click();
+    await page
+      .getByRole('button')
+      .first()
+      .filter({ has: page.locator('svg') })
+      .click();
     await expect(page.getByRole('button', { name: /continuar/i })).toBeVisible();
   });
 });

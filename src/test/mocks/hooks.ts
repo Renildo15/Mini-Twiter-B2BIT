@@ -19,7 +19,6 @@ vi.mock('@/src/hooks/useAuth', () => ({
   useAuth: () => mockAuth,
 }));
 
-
 export const mockLogout = {
   mutate: vi.fn(),
 };
