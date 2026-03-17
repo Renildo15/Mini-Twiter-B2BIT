@@ -1,3 +1,4 @@
+import { PostCreateType } from '@/types/post';
 import { apiFetch } from '../lib/apiFetch';
 
 export function getAllPosts(page: number = 1, searchTerm: string = '') {
@@ -8,5 +9,17 @@ export function getAllPosts(page: number = 1, searchTerm: string = '') {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  });
+}
+
+export function create(data: PostCreateType) {
+  const token = localStorage.getItem('token');
+  console.log(token);
+  return apiFetch('/posts/', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data,
   });
 }

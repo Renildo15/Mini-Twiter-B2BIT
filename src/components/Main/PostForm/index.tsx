@@ -1,21 +1,129 @@
+'use client';
+
+import { useCreatePost } from '@/src/hooks/usePost';
+import { PostFormData, postSchema } from '@/src/schemas/postSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import Image from 'next/image';
+
 export default function PostForm() {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    setValue,
+    reset,
+  } = useForm<PostFormData>({
+    resolver: zodResolver(postSchema),
+    defaultValues: {
+      title: '',
+      content: '',
+      image: '',
+    },
+  });
+
+  const { mutate, isPending } = useCreatePost();
+  const queryClient = useQueryClient();
+
+  const onSubmit = async (data: PostFormData) => {
+    const postData = {
+      ...data,
+      title: data.title || data.content.substring(0, 50) + (data.content.length > 50 ? '...' : ''),
+    };
+
+    mutate(postData, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['posts'] });
+        reset();
+        setImagePreview(null);
+      },
+      onError: (error) => {
+        console.log(error);
+        setError('root', { message: error.message });
+      },
+    });
+  };
+
+  const handleImageClick = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64 = reader.result as string;
+          setValue('image', base64);
+          setImagePreview(base64);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
+    input.click();
+  };
+
+  const removeImage = () => {
+    setValue('image', '');
+    setImagePreview(null);
+  };
+
   return (
     <form
+      onSubmit={handleSubmit(onSubmit)}
       className="w-full p-4 bg-white rounded-xl border border-[#E2E8F0] shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
-      action=""
     >
+      {errors.root && <div className="text-red-500 text-sm mb-2">{errors.root.message}</div>}
+
+      {imagePreview && (
+        <div className="relative mb-3 w-full h-40">
+          <Image
+            src={imagePreview}
+            alt="Preview"
+            fill
+            className="rounded-lg object-cover"
+            unoptimized={true}
+          />
+          <button
+            type="button"
+            onClick={removeImage}
+            className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 transition-colors z-10"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <textarea
-        className="w-full pt-2 pb-9 px-3 outline-none focus:border-[#0D93F2] transition-all text-[#62748E] text-[18px] leading-[28px]"
+        className={`w-full pt-2 pb-9 px-3 outline-none focus:border-[#0D93F2] transition-all text-[#62748E] text-[18px] leading-7 resize-none ${
+          errors.content ? 'border-red-500' : ''
+        }`}
         placeholder="E aí, o que está rolando?"
-      ></textarea>
+        disabled={isPending}
+        rows={4}
+        {...register('content')}
+      />
+      {errors.content && <p className="text-red-500 text-xs mb-2">{errors.content.message}</p>}
+
       <div className="flex items-center justify-between border-t border-[#E2E8F0] pt-3">
-        <button className="cursor-pointer">
+        <button
+          type="button"
+          onClick={handleImageClick}
+          className="cursor-pointer hover:opacity-80 transition-opacity"
+          disabled={isPending}
+        >
           <svg
-            width="32"
-            height="32"
             viewBox="0 0 32 32"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
           >
             <mask id="path-1-inside-1_2001_159" fill="white">
               <path d="M3.44007 25.3468L3.4134 25.3735C3.0534 24.5868 2.82673 23.6935 2.7334 22.7068C2.82673 23.6801 3.08007 24.5601 3.44007 25.3468Z" />
@@ -37,8 +145,12 @@ export default function PostForm() {
             />
           </svg>
         </button>
-        <button className="px-4 py-2 bg-[#0D93F2] text-white rounded-[9999px] w-23 cursor-pointer">
-          Postar
+
+        <button
+          type="submit"
+          className="px-4 py-2 bg-[#0D93F2] text-white rounded-[9999px] w-23 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isPending ? 'Postando...' : 'Postar'}
         </button>
       </div>
     </form>

@@ -12,7 +12,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     checkAuth();
-  });
+  }, []);
 
   const checkAuth = () => {
     try {
