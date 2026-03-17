@@ -1,20 +1,78 @@
 'use client'
 import { useAuth } from '@/src/hooks/useAuth';
+import { useDeletePost, useUpdatePost } from '@/src/hooks/usePost';
 import { formatDate } from '@/src/utils/format-date';
 import { PostType } from '@/types/post';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useState } from 'react';
+import ModalDeletePost from '../ModalDeletePost';
+import { PostFormData } from '@/src/schemas/postSchema';
+import ModalEditPost from '../ModalEditPost';
 
 interface IPostCardPorps {
   post: PostType;
 }
 
 export default function PostCard({ post }: IPostCardPorps) {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
   function formatUserName(name: string) {
     return `@${name.replace(' ', '').toLowerCase()}`;
   }
   const {isAuthenticated, user} = useAuth()
+  const { mutate: deleteMutate, isPending: isDeletePending } = useDeletePost();
+  const { mutate: updateMutate, isPending: isUpdatePending } = useUpdatePost();
+  const queryClient = useQueryClient();
+
+   const handleDelete = () => {
+    deleteMutate(post.id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['posts'] });
+        setShowConfirm(false);
+      },
+      onError: (error) => {
+        console.error('Erro ao deletar post:', error);
+        alert('Erro ao deletar post. Tente novamente.');
+      },
+    });
+  };
+
+  const handleEdit = (data: PostFormData) => {
+    updateMutate(
+      { id: post.id, data },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['posts'] });
+          setShowEdit(false);
+        },
+        onError: (error) => {
+          console.error('Erro ao editar post:', error);
+          alert('Erro ao editar post. Tente novamente.');
+        },
+      }
+    );
+  };
+
   return (
-    <div className="w-full bg-white rounded-lg border border-[#E2E8F0] p-4">
+    <div className="w-full bg-white rounded-lg border border-[#E2E8F0] p-4 relative">
+      {showConfirm && (
+        <ModalDeletePost
+          handleDelete={handleDelete}
+          isPending={isDeletePending}
+          setShowConfirm={setShowConfirm}
+        />
+      )}
+
+      {showEdit && (
+        <ModalEditPost
+          post={post}
+          handleEdit={handleEdit}
+          isPending={isUpdatePending}
+          setShowEdit={setShowEdit}
+        />
+      )}
       <div className="mb-3">
         <span className="text-[#314158] text-[16px] leading-6 font-bold">{post.authorName}</span>
         <span className="text-[#62748E] text-[14px] leading-5">
@@ -50,7 +108,10 @@ export default function PostCard({ post }: IPostCardPorps) {
         </button>
         {isAuthenticated && post.authorId === user?.id && (
           <>
-            <button className="group hover:scale-110 transition-transform duration-200 cursor-pointer">
+            <button 
+              onClick={() => setShowEdit(true)}
+              className="group hover:scale-110 transition-transform duration-200 cursor-pointer"
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M13.26 3.6L5.84 11.12C5.54 11.42 5.25 12 5.19 12.42L4.85 14.92C4.71 16.13 5.6 16.99 6.8 16.8L9.29 16.42C9.71 16.35 10.3 16.05 10.61 15.75L18.03 8.23C19.53 6.7 20.21 4.96 17.78 2.57C15.36 0.19 13.64 0.94 12.09 2.47L13.26 3.6Z"
@@ -73,7 +134,11 @@ export default function PostCard({ post }: IPostCardPorps) {
               </svg>
             </button>
 
-            <button className="group hover:scale-110 transition-transform duration-200 cursor-pointer">
+            <button
+              onClick={() => setShowConfirm(true)}
+              disabled={isDeletePending}
+              className="group hover:scale-110 transition-transform duration-200 cursor-pointer"
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M21 5.98C17.67 5.65 14.32 5.48 10.98 5.48C9 5.48 7.02 5.58 5.04 5.78L3 5.98"

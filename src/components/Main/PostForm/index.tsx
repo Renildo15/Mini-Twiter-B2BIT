@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import Image from 'next/image';
+import PreviewImage from '../PreviewImage';
 
 export default function PostForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -83,22 +84,10 @@ export default function PostForm() {
       {errors.root && <div className="text-red-500 text-sm mb-2">{errors.root.message}</div>}
 
       {imagePreview && (
-        <div className="relative mb-3 w-full h-40">
-          <Image
-            src={imagePreview}
-            alt="Preview"
-            fill
-            className="rounded-lg object-cover"
-            unoptimized={true}
-          />
-          <button
-            type="button"
-            onClick={removeImage}
-            className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600 transition-colors z-10"
-          >
-            ✕
-          </button>
-        </div>
+        <PreviewImage
+          imagePreview={imagePreview}
+          removeImage={removeImage}
+        />
       )}
 
       <textarea
