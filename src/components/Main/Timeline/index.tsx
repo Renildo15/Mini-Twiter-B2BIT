@@ -5,10 +5,12 @@ import PostCard from '../PostCard';
 import Pagination from '../Pagination';
 import { usePosts } from '@/src/hooks/usePost';
 import { useState } from 'react';
+import { useSearch } from '@/src/provider/search-provider';
 
 export default function Timeline() {
+  const {searchTerm} = useSearch()
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading, isError } = usePosts(currentPage);
+  const { data, isLoading, isError } = usePosts(currentPage, searchTerm);
 
   const posts = data?.posts || [];
   const total = data?.total || 0;

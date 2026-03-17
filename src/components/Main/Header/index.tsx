@@ -2,12 +2,17 @@
 
 import { useAuth } from '@/src/hooks/useAuth';
 import { useLogout } from '@/src/hooks/useLogout';
+import { useSearch } from '@/src/provider/search-provider';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Header() {
   const { isAuthenticated, logout, token } = useAuth();
   const router = useRouter();
   const { mutate } = useLogout();
+
+  const { setSearchTerm } = useSearch();
+  const [inputValue, setInputValue] = useState("");
 
   const handleLogout = () => {
     mutate(token ?? '', {
@@ -20,6 +25,13 @@ export default function Header() {
       },
     });
   };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setSearchTerm(value); 
+  };
+
   return (
     <header className="flex justify-between items-center bg-[#FAFAFA] border-b border-[#E2E8F0] py-3 px-10 mb-9 sticky top-0 z-50">
       <h3 className="text-[#0D93F2] text-[18px] font-bold">Mini Twitter</h3>
@@ -36,6 +48,8 @@ export default function Header() {
 
         <input
           type="search"
+          value={inputValue}
+          onChange={handleSearch}
           placeholder="Buscar por post..."
           className="flex-1 outline-none text-[14px] text-[#62748E] placeholder:text-[#94A3B8] bg-transparent"
         />

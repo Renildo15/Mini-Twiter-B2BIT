@@ -7,6 +7,7 @@ import Footer from '@/src/components/Main/Footer';
 import ReactQueryProvider from '@/src/provider/react-query-provider';
 import { AuthProvider } from '@/src/provider/auth-provider';
 import { RouteGuard } from '@/src/components/RouteGuard';
+import { SearchProvider } from '@/src/provider/search-provider';
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -30,8 +31,10 @@ export default function RootLayout({
         <AuthProvider>
           <RouteGuard>
             <ReactQueryProvider>
-              <Header />
-              <LayoutBase isTimeline={true}>{children}</LayoutBase>
+              <SearchProvider>
+                <Header />
+                <LayoutBase isTimeline={true}>{children}</LayoutBase>
+              </SearchProvider>
             </ReactQueryProvider>
             <Footer />
           </RouteGuard>
