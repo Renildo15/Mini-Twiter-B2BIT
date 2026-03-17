@@ -1,4 +1,4 @@
-import { apiFetch } from "../lib/apiFetch";
+import { apiFetch } from '../lib/apiFetch';
 
 export function login(data: { email: string; password: string }) {
   return apiFetch('auth/login/', {
@@ -11,7 +11,7 @@ export function logout(token: string) {
   return apiFetch('auth/logout/', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 }

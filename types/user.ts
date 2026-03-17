@@ -1,11 +1,10 @@
 export type UserWithTokenType = {
-    token: string;
-    user: User
-
-}
+  token: string;
+  user: User;
+};
 
 export type User = {
-    id: number;
-    name: string;
-    email: string;
-}
+  id: number;
+  name: string;
+  email: string;
+};

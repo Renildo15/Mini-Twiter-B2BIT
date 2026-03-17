@@ -1,13 +1,12 @@
-import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
-import "../globals.css";
-import LayoutBase from "@/src/components/LayoutBase";
-import Header from "@/src/components/Main/Header";
-import Footer from "@/src/components/Main/Footer";
-import ReactQueryProvider from "@/src/provider/react-query-provider";
-import { AuthProvider } from "@/src/provider/auth-provider";
-import { RouteGuard } from "@/src/components/RouteGuard";
-
+import type { Metadata } from 'next';
+import { Manrope } from 'next/font/google';
+import '../globals.css';
+import LayoutBase from '@/src/components/LayoutBase';
+import Header from '@/src/components/Main/Header';
+import Footer from '@/src/components/Main/Footer';
+import ReactQueryProvider from '@/src/provider/react-query-provider';
+import { AuthProvider } from '@/src/provider/auth-provider';
+import { RouteGuard } from '@/src/components/RouteGuard';
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -15,10 +14,9 @@ const manrope = Manrope({
   variable: '--font-manrope',
 });
 
-
 export const metadata: Metadata = {
-  title: "Mini Twitter",
-  description: "Mini Twitter",
+  title: 'Mini Twitter',
+  description: 'Mini Twitter',
 };
 
 export default function RootLayout({
@@ -28,22 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body
-        className={`${manrope.variable} antialiased bg-[#FAFAFA]`}
-      >
+      <body className={`${manrope.variable} antialiased bg-[#FAFAFA]`}>
         <AuthProvider>
-           <RouteGuard>
+          <RouteGuard>
             <ReactQueryProvider>
-              <Header/>
-              <LayoutBase isTimeline={true}>
-                
-                  {children}
-              </LayoutBase>
+              <Header />
+              <LayoutBase isTimeline={true}>{children}</LayoutBase>
             </ReactQueryProvider>
-            <Footer/>
-           </RouteGuard>
+            <Footer />
+          </RouteGuard>
         </AuthProvider>
-        
       </body>
     </html>
   );

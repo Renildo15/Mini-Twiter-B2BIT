@@ -1,5 +1,5 @@
-import axios from "axios";
-import { api } from "./api";
+import axios from 'axios';
+import { api } from './api';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function apiFetch(url: string, options?: any) {
   try {
@@ -11,15 +11,14 @@ export async function apiFetch(url: string, options?: any) {
     return response.data;
   } catch (error) {
     console.log('Erro completo:', error);
-    
+
     if (axios.isAxiosError(error) && error.response) {
-      const errorMessage = error.response.data?.error || 
-                          error.response.data?.message || 
-                          "Erro na requisição";
-      
+      const errorMessage =
+        error.response.data?.error || error.response.data?.message || 'Erro na requisição';
+
       throw new Error(errorMessage);
     }
-    
-    throw new Error("Erro na requisição");
+
+    throw new Error('Erro na requisição');
   }
 }
