@@ -78,7 +78,10 @@ export default function PostCard({ post }: IPostCardPorps) {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-[#1D293D] rounded-lg border border-[#E2E8F0] dark:border-[#62748E] p-4 relative">
+    <div 
+      data-testid="post-card" 
+      className="w-full bg-white dark:bg-[#1D293D] rounded-lg border border-[#E2E8F0] dark:border-[#62748E] p-4 relative"
+    >
       {showConfirm && (
         <ModalDeletePost
           handleDelete={handleDelete}
@@ -126,11 +129,13 @@ export default function PostCard({ post }: IPostCardPorps) {
           <button
             onClick={handleLike}
             disabled={isLikePending}
+            data-testid="like-button"
+            data-liked={liked}
             className={`flex flex-row items-center group hover:scale-110 transition-transform duration-200 cursor-pointer ${
               isLikePending ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill={liked ? '#EB5757' : 'none'}>
+            <svg data-testid="like-icon" width="24" height="24" viewBox="0 0 24 24" fill={liked ? '#EB5757' : 'none'}>
               <path
                 d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
                 stroke="#EB5757"
@@ -140,7 +145,7 @@ export default function PostCard({ post }: IPostCardPorps) {
                 }`}
               />
             </svg>
-            <span className="text-[#62748E] dark:text-white text-sm font-medium min-w-5">
+            <span data-testid="like-count" className="text-[#62748E] dark:text-white text-sm font-medium min-w-5">
               {likesCount}
             </span>
           </button>
@@ -148,6 +153,7 @@ export default function PostCard({ post }: IPostCardPorps) {
         {isAuthenticated && post.authorId === user?.id && (
           <>
             <button
+              data-testid="edit-button"
               onClick={() => setShowEdit(true)}
               className="group hover:scale-110 transition-transform duration-200 cursor-pointer"
             >
@@ -174,6 +180,7 @@ export default function PostCard({ post }: IPostCardPorps) {
             </button>
 
             <button
+              data-testid="delete-button"
               onClick={() => setShowConfirm(true)}
               disabled={isDeletePending}
               className="group hover:scale-110 transition-transform duration-200 cursor-pointer"

@@ -50,7 +50,7 @@ export default function Register() {
       <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
         <AuthInput
           label="Nome"
-          placeholder="Insira o seu e-mail"
+          placeholder="Insira o seu nome"
           type="text"
           error={errors.name?.message}
           disabled={isPending}
