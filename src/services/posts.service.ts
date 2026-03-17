@@ -44,3 +44,13 @@ export function updatePost(data: PostUpdateType, id: number) {
     data,
   });
 }
+
+export function likePost(postId: number) {
+  const token = localStorage.getItem('token');
+  return apiFetch(`/posts/${postId}/like`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

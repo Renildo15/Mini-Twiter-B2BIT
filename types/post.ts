@@ -6,7 +6,7 @@ export type PostType = {
   authorId: number;
   createdAt: string;
   authorName: string;
-  likeCount: number;
+  likesCount: number;
 };
 
 export type PostsType = {

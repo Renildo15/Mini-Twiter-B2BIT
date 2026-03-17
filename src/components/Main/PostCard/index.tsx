@@ -1,6 +1,6 @@
 'use client'
 import { useAuth } from '@/src/hooks/useAuth';
-import { useDeletePost, useUpdatePost } from '@/src/hooks/usePost';
+import { useDeletePost, useLikePost, useUpdatePost } from '@/src/hooks/usePost';
 import { formatDate } from '@/src/utils/format-date';
 import { PostType } from '@/types/post';
 import { useQueryClient } from '@tanstack/react-query';
@@ -17,6 +17,8 @@ interface IPostCardPorps {
 export default function PostCard({ post }: IPostCardPorps) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(post.likesCount || 0);
 
   function formatUserName(name: string) {
     return `@${name.replace(' ', '').toLowerCase()}`;
@@ -24,6 +26,7 @@ export default function PostCard({ post }: IPostCardPorps) {
   const {isAuthenticated, user} = useAuth()
   const { mutate: deleteMutate, isPending: isDeletePending } = useDeletePost();
   const { mutate: updateMutate, isPending: isUpdatePending } = useUpdatePost();
+  const { mutate: likeMutate, isPending: isLikePending } = useLikePost();
   const queryClient = useQueryClient();
 
    const handleDelete = () => {
@@ -53,6 +56,25 @@ export default function PostCard({ post }: IPostCardPorps) {
         },
       }
     );
+  };
+
+  const handleLike = () => {
+    if (!isAuthenticated) {
+      alert('Faça login para curtir posts');
+      return;
+    }
+
+    const newLikedState = !liked;
+    setLiked(newLikedState);
+    setLikesCount(prev => newLikedState ? prev + 1 : prev - 1);
+
+    likeMutate(post.id, {
+      onError: (error) => {
+        setLiked(!newLikedState);
+        setLikesCount(prev => newLikedState ? prev - 1 : prev + 1);
+        console.error('Erro ao curtir post:', error);
+      },
+    });
   };
 
   return (
@@ -96,16 +118,29 @@ export default function PostCard({ post }: IPostCardPorps) {
         </div>
       )}
       <div className="flex items-center gap-4">
-        <button className="group hover:scale-110 transition-transform duration-200 cursor-pointer">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
-              stroke="#EB5757"
-              strokeWidth="1.5"
-              className="group-hover:fill-red-500 transition-all duration-200"
-            />
-          </svg>
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+              onClick={handleLike}
+              disabled={isLikePending}
+              className={`flex flex-row items-center group hover:scale-110 transition-transform duration-200 cursor-pointer ${
+                isLikePending ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill={liked ? "#EB5757" : "none"}>
+              <path
+                d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
+                stroke="#EB5757"
+                strokeWidth="1.5"
+                className={`transition-all duration-200 ${
+                    liked ? '' : 'group-hover:fill-red-500/30'
+                  }`}
+              />
+            </svg>
+            <span className="text-[#62748E] text-sm font-medium min-w-5">
+              {likesCount}
+          </span>
+          </button>
+        </div>
         {isAuthenticated && post.authorId === user?.id && (
           <>
             <button 

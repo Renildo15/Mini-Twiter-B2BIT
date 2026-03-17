@@ -1,6 +1,6 @@
 import { PostsType, PostUpdateType } from '@/types/post';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createPost, deletePost, getAllPosts, updatePost } from '../services/posts.service';
+import { createPost, deletePost, getAllPosts, likePost, updatePost } from '../services/posts.service';
 
 export function usePosts(page: number = 1, searchTerm?: string) {
   return useQuery<PostsType>({
@@ -25,5 +25,12 @@ export function useUpdatePost() {
   
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: PostUpdateType }) => updatePost(data, id),
+  });
+}
+
+
+export function useLikePost() {  
+  return useMutation({
+    mutationFn: (postId: number) => likePost(postId),
   });
 }
