@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import Image from 'next/image';
 import PreviewImage from '../PreviewImage';
 
 export default function PostForm() {
