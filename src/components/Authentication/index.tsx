@@ -23,15 +23,15 @@ export default function Auth() {
   };
   return (
     <>
-      <h1 className="text-[#0D93F2] text-[40px] leading-[120%]">Mini Twitter</h1>
+      <h1 className="text-[#0D93F2] text-[40px] leading-[120%] dark:text-white">Mini Twitter</h1>
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-center border-b border-[#62748E]/20 mb-8">
           <button
             onClick={() => handleTab('login')}
             className={`font-bold text-[16px] w-full pt-2 pb-3 border-b-2 cursor-pointer ${
               tab === 'login'
-                ? 'text-[#0D93F2] border-[#0D93F2]'
-                : 'text-[#62748E] border-transparent'
+                ? 'text-[#0D93F2] border-[#0D93F2] dark:text-white'
+                : 'text-[#62748E] border-transparent dark:text-[#90A1B9]'
             }`}
           >
             Login
@@ -40,8 +40,8 @@ export default function Auth() {
             onClick={() => handleTab('register')}
             className={`font-bold text-[16px] w-full pt-2 pb-3 border-b-2 cursor-pointer ${
               tab === 'register'
-                ? 'text-[#0D93F2] border-[#0D93F2]'
-                : 'text-[#62748E] border-transparent'
+                ? 'text-[#0D93F2] border-[#0D93F2] dark:text-white'
+                : 'text-[#62748E] border-transparent dark:text-[#90A1B9]'
             }`}
           >
             Cadastrar

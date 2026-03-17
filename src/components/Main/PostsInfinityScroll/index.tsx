@@ -7,16 +7,10 @@ import InfiniteScroll from '../InfiniteScroll';
 
 export default function PostsInfinityScroll() {
   const { searchTerm } = useSearch();
-  const {
-    data,
-    isLoading,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = usePostsInfintyScroll(searchTerm);
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    usePostsInfintyScroll(searchTerm);
 
-  const posts = data?.pages.flatMap(page => page.posts) || [];
+  const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   if (isLoading) {
     return (

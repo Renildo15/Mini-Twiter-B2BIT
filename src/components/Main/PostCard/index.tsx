@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useAuth } from '@/src/hooks/useAuth';
 import { useDeletePost, useLikePost, useUpdatePost } from '@/src/hooks/usePost';
 import { formatDate } from '@/src/utils/format-date';
@@ -23,13 +23,13 @@ export default function PostCard({ post }: IPostCardPorps) {
   function formatUserName(name: string) {
     return `@${name.replace(' ', '').toLowerCase()}`;
   }
-  const {isAuthenticated, user} = useAuth()
+  const { isAuthenticated, user } = useAuth();
   const { mutate: deleteMutate, isPending: isDeletePending } = useDeletePost();
   const { mutate: updateMutate, isPending: isUpdatePending } = useUpdatePost();
   const { mutate: likeMutate, isPending: isLikePending } = useLikePost();
   const queryClient = useQueryClient();
 
-   const handleDelete = () => {
+  const handleDelete = () => {
     deleteMutate(post.id, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['posts'] });
@@ -66,19 +66,19 @@ export default function PostCard({ post }: IPostCardPorps) {
 
     const newLikedState = !liked;
     setLiked(newLikedState);
-    setLikesCount(prev => newLikedState ? prev + 1 : prev - 1);
+    setLikesCount((prev) => (newLikedState ? prev + 1 : prev - 1));
 
     likeMutate(post.id, {
       onError: (error) => {
         setLiked(!newLikedState);
-        setLikesCount(prev => newLikedState ? prev - 1 : prev + 1);
+        setLikesCount((prev) => (newLikedState ? prev - 1 : prev + 1));
         console.error('Erro ao curtir post:', error);
       },
     });
   };
 
   return (
-    <div className="w-full bg-white rounded-lg border border-[#E2E8F0] p-4 relative">
+    <div className="w-full bg-white dark:bg-[#1D293D] rounded-lg border border-[#E2E8F0] dark:border-[#62748E] p-4 relative">
       {showConfirm && (
         <ModalDeletePost
           handleDelete={handleDelete}
@@ -96,15 +96,19 @@ export default function PostCard({ post }: IPostCardPorps) {
         />
       )}
       <div className="mb-3">
-        <span className="text-[#314158] text-[16px] leading-6 font-bold">{post.authorName}</span>
-        <span className="text-[#62748E] text-[14px] leading-5">
+        <span className="text-[#314158] dark:text-white text-[16px] leading-6 font-bold">
+          {post.authorName}
+        </span>
+        <span className="text-[#62748E] text-[14px] leading-5 dark:text-[#6E767D]">
           {' '}
           {formatUserName(post.authorName)} · {formatDate(post.createdAt)}
         </span>
       </div>
       <div className="mb-3">
-        <span className="text-[#314158] text-[18px] leading-7 font-bold">{post.title}</span>
-        <p className="text-[#314158] text-[16px] leading-6.5">{post.content}</p>
+        <span className="text-[#314158] text-[18px] leading-7 font-bold dark:text-white">
+          {post.title}
+        </span>
+        <p className="text-[#314158] text-[16px] leading-6.5 dark:text-[#CBD5E1]">{post.content}</p>
       </div>
       {post.image && (
         <div className="mb-3">
@@ -119,31 +123,31 @@ export default function PostCard({ post }: IPostCardPorps) {
       )}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <button 
-              onClick={handleLike}
-              disabled={isLikePending}
-              className={`flex flex-row items-center group hover:scale-110 transition-transform duration-200 cursor-pointer ${
-                isLikePending ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill={liked ? "#EB5757" : "none"}>
+          <button
+            onClick={handleLike}
+            disabled={isLikePending}
+            className={`flex flex-row items-center group hover:scale-110 transition-transform duration-200 cursor-pointer ${
+              isLikePending ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill={liked ? '#EB5757' : 'none'}>
               <path
                 d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
                 stroke="#EB5757"
                 strokeWidth="1.5"
                 className={`transition-all duration-200 ${
-                    liked ? '' : 'group-hover:fill-red-500/30'
-                  }`}
+                  liked ? '' : 'group-hover:fill-red-500/30'
+                }`}
               />
             </svg>
-            <span className="text-[#62748E] text-sm font-medium min-w-5">
+            <span className="text-[#62748E] dark:text-white text-sm font-medium min-w-5">
               {likesCount}
-          </span>
+            </span>
           </button>
         </div>
         {isAuthenticated && post.authorId === user?.id && (
           <>
-            <button 
+            <button
               onClick={() => setShowEdit(true)}
               className="group hover:scale-110 transition-transform duration-200 cursor-pointer"
             >

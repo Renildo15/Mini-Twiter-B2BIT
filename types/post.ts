@@ -15,11 +15,8 @@ export type PostsType = {
   page: number;
   limit: number;
 };
-export type PostCreateType = Omit<
-  PostType,
-  'id' | 'authorId' | 'createdAt' | 'authorName' | 'likeCount'
->;
+export type PostCreateType = Omit<PostType, 'id' | 'authorId' | 'createdAt' | 'authorName'>;
 
 export type PostUpdateType = Partial<
-  Omit<PostType, 'id' | 'authorId' | 'createdAt' | 'authorName' | 'likeCount'>
+  Omit<PostType, 'id' | 'authorId' | 'createdAt' | 'authorName' | 'likesCount'>
 >;

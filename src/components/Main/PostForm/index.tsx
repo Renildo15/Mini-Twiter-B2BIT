@@ -79,19 +79,14 @@ export default function PostForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full p-4 bg-white rounded-xl border border-[#E2E8F0] shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+      className="w-full p-4 bg-white dark:bg-[#1D293D] rounded-xl border border-[#E2E8F0] dark:border-[#62748E] shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
     >
       {errors.root && <div className="text-red-500 text-sm mb-2">{errors.root.message}</div>}
 
-      {imagePreview && (
-        <PreviewImage
-          imagePreview={imagePreview}
-          removeImage={removeImage}
-        />
-      )}
+      {imagePreview && <PreviewImage imagePreview={imagePreview} removeImage={removeImage} />}
 
       <textarea
-        className={`w-full pt-2 pb-9 px-3 outline-none focus:border-[#0D93F2] transition-all text-[#62748E] text-[18px] leading-7 resize-none ${
+        className={`w-full pt-2 pb-9 px-3 outline-none focus:border-[#0D93F2] transition-all text-[#62748E] dark:text-[#62748E] text-[18px] leading-7 resize-none dark:placeholder:text-[#62748E] ${
           errors.content ? 'border-red-500' : ''
         }`}
         placeholder="E aí, o que está rolando?"
@@ -101,7 +96,7 @@ export default function PostForm() {
       />
       {errors.content && <p className="text-red-500 text-xs mb-2">{errors.content.message}</p>}
 
-      <div className="flex items-center justify-between border-t border-[#E2E8F0] pt-3">
+      <div className="flex items-center justify-between border-t border-[#E2E8F0] dark:border-[#62748E] pt-3">
         <button
           type="button"
           onClick={handleImageClick}

@@ -33,7 +33,6 @@ export function deletePost(id: number) {
   });
 }
 
-
 export function updatePost(data: PostUpdateType, id: number) {
   const token = localStorage.getItem('token');
   return apiFetch(`/posts/${id}`, {

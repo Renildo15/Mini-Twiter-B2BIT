@@ -13,7 +13,7 @@ export default function InfiniteScroll({
   onLoadMore,
   hasMore,
   isLoading,
-  children
+  children,
 }: InfiniteScrollProps) {
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -44,9 +44,7 @@ export default function InfiniteScroll({
         </div>
       )}
       {!hasMore && (
-        <div className="text-center text-[#62748E] py-4">
-          Você já viu todos os posts! 🚀
-        </div>
+        <div className="text-center text-[#62748E] py-4">Você já viu todos os posts! 🚀</div>
       )}
     </>
   );

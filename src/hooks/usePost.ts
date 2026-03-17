@@ -1,6 +1,12 @@
 import { PostsType, PostUpdateType } from '@/types/post';
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
-import { createPost, deletePost, getAllPosts, likePost, updatePost } from '../services/posts.service';
+import {
+  createPost,
+  deletePost,
+  getAllPosts,
+  likePost,
+  updatePost,
+} from '../services/posts.service';
 
 export function usePostsPagination(page: number = 1, searchTerm?: string) {
   return useQuery<PostsType>({
@@ -34,14 +40,12 @@ export function useDeletePost() {
 }
 
 export function useUpdatePost() {
-  
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: PostUpdateType }) => updatePost(data, id),
   });
 }
 
-
-export function useLikePost() {  
+export function useLikePost() {
   return useMutation({
     mutationFn: (postId: number) => likePost(postId),
   });

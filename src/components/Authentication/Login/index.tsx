@@ -47,8 +47,8 @@ export default function Login() {
   return (
     <>
       <div>
-        <h3 className="text-[#0D93F2] text-[30px] leading-9">Olá, de novo!</h3>
-        <span className="text-[#62748E] text-[16px] leading-6">
+        <h3 className="text-[#0D93F2] dark:text-white text-[30px] leading-9">Olá, de novo!</h3>
+        <span className="text-[#62748E] dark:text-[#90A1B9] text-[16px] leading-6">
           Por favor, insira os seus dados para fazer login.
         </span>
       </div>

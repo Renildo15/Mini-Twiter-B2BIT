@@ -4,7 +4,7 @@ import PostsInfinityScroll from '../PostsInfinityScroll';
 
 export default function Timeline() {
   return (
-    <PostsInfinityScroll/>
+    <PostsInfinityScroll />
     // <PostsPagination/>
-  )
+  );
 }

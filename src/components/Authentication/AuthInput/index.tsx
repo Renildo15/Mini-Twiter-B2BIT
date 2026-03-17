@@ -13,16 +13,16 @@ const AuthInput = forwardRef<HTMLInputElement, IAuthInputProps>(
   ({ label, children, placeholder, type, error, disabled, className, ...props }, ref) => {
     return (
       <div className="flex flex-col gap-2">
-        <label className="text-[#62748E] text-[14px] leading-5">{label}</label>
+        <label className="text-[#62748E] dark:text-white text-[14px] leading-5">{label}</label>
 
         <div
           className={`
-                        flex rounded-lg p-4 bg-white border w-full 
+                        flex rounded-lg p-4 bg-white dark:bg-[#1D293D] border w-full 
                         transition-all duration-200
                         ${
                           error
                             ? 'border-red-500 focus-within:border-red-500'
-                            : 'border-[#E2E8F0] focus-within:border-[#0D93F2]'
+                            : 'border-[#E2E8F0] dark:border-[#62748E] focus-within:border-[#0D93F2]'
                         }
                         ${
                           disabled
@@ -38,7 +38,7 @@ const AuthInput = forwardRef<HTMLInputElement, IAuthInputProps>(
             placeholder={placeholder}
             disabled={disabled}
             className={`
-                            text-[#62748E] w-full outline-none bg-transparent
+                            text-[#62748E] dark:text-[#62748E] w-full outline-none bg-transparent
                             placeholder:text-[#94A3B8] placeholder:text-sm
                             ${disabled ? 'cursor-not-allowed' : ''}
                         `}

@@ -27,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className={`${manrope.variable} antialiased bg-[#FAFAFA]`}>
+      <body
+        className={`${manrope.variable} antialiased bg-[#FAFAFA] dark:bg-linear-to-b dark:from-[#0F172B] dark:to-[#070B14]`}
+      >
         <AuthProvider>
           <RouteGuard>
             <ReactQueryProvider>
