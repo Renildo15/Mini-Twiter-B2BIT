@@ -3,13 +3,16 @@
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
+import { useSearchParams } from "next/navigation";
 
-type ScreenType = "login" | "register"
+type TabType = "login" | "register"
 export default function Auth() {
-    const [screen, setScreen] = useState<ScreenType>("login")
-    const handleScreen = (screenName: ScreenType) => {
-        setScreen(screenName)
-        switch(screen) {
+    const searchParams = useSearchParams();
+    const tabParams = searchParams.get('tab') as TabType;
+    const [tab, setTab] = useState<TabType>(tabParams ? tabParams : "login")
+    const handleTab = (tabName: TabType) => {
+        setTab(tabName)
+        switch(tab) {
             case "login":
                 return <Login/>
             case "register":
@@ -23,9 +26,9 @@ export default function Auth() {
             <h1 className="text-[#0D93F2] text-[40px] leading-[120%]">Mini Twitter</h1>
             <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-center border-b border-[#62748E]/20 mb-8">
-                    <button onClick={() => handleScreen("login")} 
+                    <button onClick={() => handleTab("login")} 
                         className={`font-bold text-[16px] w-full pt-2 pb-3 border-b-2 cursor-pointer ${
-                        screen === "login"
+                        tab === "login"
                             ? "text-[#0D93F2] border-[#0D93F2]"
                             : "text-[#62748E] border-transparent"
                         }`}
@@ -33,9 +36,9 @@ export default function Auth() {
                         Login
                     </button>
                     <button
-                        onClick={() => setScreen("register")}
+                        onClick={() => handleTab("register")}
                         className={`font-bold text-[16px] w-full pt-2 pb-3 border-b-2 cursor-pointer ${
-                            screen === "register"
+                            tab === "register"
                             ? "text-[#0D93F2] border-[#0D93F2]"
                             : "text-[#62748E] border-transparent"
                         }`}
@@ -43,8 +46,8 @@ export default function Auth() {
                             Cadastrar
                     </button>
                 </div>
-                {screen === "login" && <Login />}
-                {screen === "register" && <Register />}
+                {tab === "login" && <Login />}
+                {tab === "register" && <Register />}
             </div>
         </>
     )

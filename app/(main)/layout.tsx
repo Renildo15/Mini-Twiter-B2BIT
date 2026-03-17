@@ -4,6 +4,9 @@ import "../globals.css";
 import LayoutBase from "@/src/components/LayoutBase";
 import Header from "@/src/components/Main/Header";
 import Footer from "@/src/components/Main/Footer";
+import ReactQueryProvider from "@/src/provider/react-query-provider";
+import { AuthProvider } from "@/src/provider/auth-provider";
+import { RouteGuard } from "@/src/components/RouteGuard";
 
 
 const manrope = Manrope({
@@ -28,11 +31,18 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} antialiased bg-[#FAFAFA]`}
       >
-        <Header/>
-        <LayoutBase isTimeline={true}>
-          {children}
-        </LayoutBase>
-        <Footer/>
+        <AuthProvider>
+           <RouteGuard>
+            <Header/>
+            <LayoutBase isTimeline={true}>
+              <ReactQueryProvider>
+                {children}
+                </ReactQueryProvider>
+            </LayoutBase>
+            <Footer/>
+           </RouteGuard>
+        </AuthProvider>
+        
       </body>
     </html>
   );

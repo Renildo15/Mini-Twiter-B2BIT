@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "../globals.css";
 import LayoutBase from "@/src/components/LayoutBase";
+import ReactQueryProvider from "@/src/provider/react-query-provider";
+import { RouteGuard } from "@/src/components/RouteGuard";
+import { AuthProvider } from "@/src/provider/auth-provider";
 
 
 const manrope = Manrope({
@@ -23,7 +26,13 @@ export default function LoginLayout({ children }: { children: React.ReactNode })
         className={`${manrope.variable} antialiased`}
       >
         <LayoutBase>
-          {children}
+          <ReactQueryProvider>
+            <AuthProvider>
+              <RouteGuard>
+                {children}
+              </RouteGuard>
+            </AuthProvider>
+          </ReactQueryProvider>
         </LayoutBase>
       </body>
     </html>
