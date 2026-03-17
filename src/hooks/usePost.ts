@@ -1,11 +1,23 @@
 import { PostsType, PostUpdateType } from '@/types/post';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { createPost, deletePost, getAllPosts, likePost, updatePost } from '../services/posts.service';
 
-export function usePosts(page: number = 1, searchTerm?: string) {
+export function usePostsPagination(page: number = 1, searchTerm?: string) {
   return useQuery<PostsType>({
     queryKey: ['posts', page, searchTerm],
     queryFn: () => getAllPosts(page, searchTerm),
+  });
+}
+
+export function usePostsInfintyScroll(searchTerm?: string) {
+  return useInfiniteQuery<PostsType>({
+    queryKey: ['posts', searchTerm],
+    queryFn: ({ pageParam = 1 }) => getAllPosts(Number(pageParam), searchTerm),
+    getNextPageParam: (lastPage) => {
+      const hasMore = lastPage.page * lastPage.limit < lastPage.total;
+      return hasMore ? lastPage.page + 1 : undefined;
+    },
+    initialPageParam: 1,
   });
 }
 
