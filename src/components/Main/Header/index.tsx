@@ -58,19 +58,19 @@ export default function Header() {
         <div className="flex gap-2">
           <button
             onClick={() => router.push('/auth?tab=register')}
-            className="cursor-pointer border border-[#E2E8F0] px-7.5 py-2 text-[#62748E] text-[16px] leading-6 rounded-[9999px] min-w-39 font-bold"
+            className="cursor-pointer border border-[#E2E8F0] px-7.5 py-2 text-[#62748E] text-[16px] leading-6 rounded-[9999px] min-w-39 font-bold hover:bg-[#0D93F2] hover:text-white hover:border-[#0D93F2] transition-all duration-200"
           >
             Registra-se
           </button>
           <button
             onClick={() => router.push('/auth?tab=login')}
-            className="cursor-pointer bg-[#0D93F2] px-7.5 py-2 text-white text-[16px] leading-6 rounded-[9999px] min-w-39 font-bold shadow-[0_6px_14px_rgba(59,130,246,0.45)]"
+            className="cursor-pointer bg-[#0D93F2] px-7.5 py-2 text-white text-[16px] leading-6 rounded-[9999px] min-w-39 font-bold shadow-[0_6px_14px_rgba(59,130,246,0.45)] hover:bg-[#0a7acc] transition-colors duration-200"
           >
             Login
           </button>
         </div>
       ) : (
-        <button onClick={handleLogout} className="bg-[#0D93F2] p-3 rounded-full cursor-pointer">
+        <button onClick={handleLogout} className="bg-[#0D93F2] p-3 rounded-full cursor-pointer hover:bg-[#0a7acc] transition-colors duration-200">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
               d="M7.4165 6.29995C7.67484 3.29995 9.2165 2.07495 12.5915 2.07495H12.6998C16.4248 2.07495 17.9165 3.56662 17.9165 7.29162V12.725C17.9165 16.45 16.4248 17.9416 12.6998 17.9416H12.5915C9.2415 17.9416 7.69984 16.7333 7.42484 13.7833"

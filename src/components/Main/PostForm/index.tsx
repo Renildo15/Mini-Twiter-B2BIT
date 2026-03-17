@@ -148,7 +148,7 @@ export default function PostForm() {
 
         <button
           type="submit"
-          className="px-4 py-2 bg-[#0D93F2] text-white rounded-[9999px] w-23 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-[#0D93F2] text-white rounded-[9999px] w-23 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#0a7acc] transition-colors duration-200"
         >
           {isPending ? 'Postando...' : 'Postar'}
         </button>

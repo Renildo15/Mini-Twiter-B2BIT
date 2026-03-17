@@ -3,7 +3,7 @@ export type PostType = {
   title: string;
   content: string;
   image?: string;
-  authorId: string;
+  authorId: number;
   createdAt: string;
   authorName: string;
   likeCount: number;

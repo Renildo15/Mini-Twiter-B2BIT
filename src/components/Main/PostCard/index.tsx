@@ -1,3 +1,5 @@
+'use client'
+import { useAuth } from '@/src/hooks/useAuth';
 import { formatDate } from '@/src/utils/format-date';
 import { PostType } from '@/types/post';
 import Image from 'next/image';
@@ -10,6 +12,7 @@ export default function PostCard({ post }: IPostCardPorps) {
   function formatUserName(name: string) {
     return `@${name.replace(' ', '').toLowerCase()}`;
   }
+  const {isAuthenticated, user} = useAuth()
   return (
     <div className="w-full bg-white rounded-lg border border-[#E2E8F0] p-4">
       <div className="mb-3">
@@ -34,23 +37,79 @@ export default function PostCard({ post }: IPostCardPorps) {
           />
         </div>
       )}
-      <button>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
-            stroke="#EB5757"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+      <div className="flex items-center gap-4">
+        <button className="group hover:scale-110 transition-transform duration-200 cursor-pointer">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
+              stroke="#EB5757"
+              strokeWidth="1.5"
+              className="group-hover:fill-red-500 transition-all duration-200"
+            />
+          </svg>
+        </button>
+        {isAuthenticated && post.authorId === user?.id && (
+          <>
+            <button className="group hover:scale-110 transition-transform duration-200 cursor-pointer">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M13.26 3.6L5.84 11.12C5.54 11.42 5.25 12 5.19 12.42L4.85 14.92C4.71 16.13 5.6 16.99 6.8 16.8L9.29 16.42C9.71 16.35 10.3 16.05 10.61 15.75L18.03 8.23C19.53 6.7 20.21 4.96 17.78 2.57C15.36 0.19 13.64 0.94 12.09 2.47L13.26 3.6Z"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-blue-500 transition-all duration-200"
+                />
+                <path
+                  d="M10.91 4.7C11.41 7.49 13.66 9.68 16.46 10.1"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-blue-500 transition-all duration-200"
+                />
+                <path
+                  d="M3 22H21"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-blue-500 transition-all duration-200"
+                />
+              </svg>
+            </button>
+
+            <button className="group hover:scale-110 transition-transform duration-200 cursor-pointer">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 5.98C17.67 5.65 14.32 5.48 10.98 5.48C9 5.48 7.02 5.58 5.04 5.78L3 5.98"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-red-500 transition-all duration-200"
+                />
+                <path
+                  d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-red-500 transition-all duration-200"
+                />
+                <path
+                  d="M18.85 9.14L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79C6 22 5.91 20.78 5.8 19.21L5.15 9.14"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-red-500 transition-all duration-200"
+                />
+                <path
+                  d="M10.33 16.5H13.66"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-red-500 transition-all duration-200"
+                />
+                <path
+                  d="M9.5 12.5H14.5"
+                  stroke="#62748E"
+                  strokeWidth="1.5"
+                  className="group-hover:stroke-red-500 transition-all duration-200"
+                />
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }
