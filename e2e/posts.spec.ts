@@ -29,21 +29,38 @@ test.describe('Posts', () => {
   });
 
   test('deve curtir um post', async ({ page }) => {
-    await page.getByPlaceholder('Buscar por post...').fill('Teste');
-
+    await page.request.post('/api/posts', {
+      data: {
+        content: 'Post de teste para curtir',
+      }
+    });
+    
+    await page.waitForTimeout(1000);
+    
+    await page.reload();
+    
+    await page.getByPlaceholder('Buscar por post...').fill('teste');
+    
     await page.waitForResponse(
-      (response) => response.url().includes('/posts') && response.url().includes('search=Teste')
+      (response) => response.url().includes('/posts') && response.status() === 200,
+      { timeout: 10000 }
     );
+    
     await page.waitForSelector('[data-testid="post-card"]', { timeout: 10000 });
-
+    
     const post = page.getByTestId('post-card').first();
     await expect(post).toBeVisible();
-
+    
     const likeButton = post.getByTestId('like-button');
-    await expect(likeButton).toBeVisible({ timeout: 10000 });
-
+    await expect(likeButton).toBeVisible({ timeout: 5000 });
+    
     await likeButton.click();
-
+    
+    await page.waitForResponse(
+      (response) => response.url().includes('/posts/') && response.url().includes('/like'),
+      { timeout: 5000 }
+    );
+    
     await expect(likeButton).toHaveAttribute('data-liked', 'true');
   });
 
