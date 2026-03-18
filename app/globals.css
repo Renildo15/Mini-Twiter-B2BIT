@@ -2,9 +2,9 @@
 
 :root {
   /* Light mode */
-  --background: #f4f4f4;
-  --background-start: #f4f4f4;
-  --background-end: #f4f4f4;
+  --background: #FAFAFA;
+  --background-start: #FAFAFA;
+  --background-end: #FAFAFA;
   --foreground: #171717;
 }
 
@@ -13,7 +13,7 @@
   --color-background-start: var(--background-start);
   --color-background-end: var(--background-end);
   --color-foreground: var(--foreground);
-  --font-manrope: var(--font-manrope);
+  --font-manrope: var(--font-manrope);;
 }
 
 @media (prefers-color-scheme: dark) {
